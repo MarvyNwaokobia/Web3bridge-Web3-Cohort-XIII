@@ -13,4 +13,4 @@ npx hardhat ignition deploy ./ignition/modules/Lock.js
 ```
 
 Deploying MultiSigWalletFactory...
-Factory deployed to: 0x8C8A07a4Ca8d767722c0737CCC07aEE9EeB05ef4
+Factory deployed to: 0x8C8A07a4Ca8d767722c0737CCC07aEE9EeB05ef4Address
