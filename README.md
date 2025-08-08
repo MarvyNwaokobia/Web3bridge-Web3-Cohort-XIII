@@ -12,6 +12,7 @@ npx hardhat node
 npx hardhat ignition deploy ./ignition/modules/Lock.js
 ```
 
-Deploying MultiSigWalletFactory
+Deployed to Holesky: MultiSigWalletFactory
 
 Factory deployed to: 0x8C8A07a4Ca8d767722c0737CCC07aEE9EeB05ef4Address
+
