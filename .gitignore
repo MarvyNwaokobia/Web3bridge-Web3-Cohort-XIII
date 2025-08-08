@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # macOS
 .DS_Store
 .DS_Store?
@@ -121,6 +122,11 @@ node_modules
 
 onsite-program/tasks/week-3/Abasiodiong-udofia
 
+=======
+node_modules
+.env
+
+>>>>>>> da317bc (MultiSig Wallet)
 # Hardhat files
 /cache
 /artifacts
