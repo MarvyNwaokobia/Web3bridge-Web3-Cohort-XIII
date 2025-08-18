@@ -72,7 +72,7 @@ describe("TestToken", function () {
 
       expect(await testToken.balanceOf(recipient.address)).to.equal(transferAmount);
       expect(await testToken.balanceOf(owner.address)).to.equal(
-        hre.ethers.parseEther("900") // 1000 - 100
+        hre.ethers.parseEther("900") 
       );
     });
 

@@ -108,7 +108,6 @@ async function deployTestToken(): Promise<DeploymentInfo> {
     deploymentBlock: await ethers.provider.getBlockNumber()
   };
 
-  // Save deployment info
   const fs = require('fs');
   const path = require('path');
   const deploymentsDir = path.join(__dirname, '..', 'deployments');
@@ -147,7 +146,6 @@ async function main() {
   console.log("👤 Signer Address:", signer.address);
   console.log("💰 ETH Balance:", ethers.formatEther(await ethers.provider.getBalance(signer.address)), "ETH\n");
 
-  // Use Sepolia addresses for local testing (Hardhat) or default to Sepolia
   const addresses = isMainnet ? ADDRESSES.mainnet : ADDRESSES.sepolia;
 
   if (isHardhat) {
@@ -163,7 +161,6 @@ async function main() {
   console.log("   - Uniswap Router:", addresses.ROUTER);
   console.log("   - WETH:", addresses.WETH, "\n");
 
-  // Verify the contract exists by checking if it has code
   const contractCode = await ethers.provider.getCode(deploymentInfo.tokenAddress);
   if (contractCode === "0x") {
     if (isHardhat) {
@@ -182,10 +179,10 @@ async function main() {
   console.log("   - TEST Tokens:", ethers.formatEther(tokenBalance));
   console.log("   - ETH:", ethers.formatEther(await ethers.provider.getBalance(signer.address)), "\n");
   
-  const deadline = Math.floor(Date.now() / 1000) + 1800; // 30 minutes from now
-  const amountIn = ethers.parseEther("1"); // 1 TEST token
-  const amountOut = ethers.parseEther("0.1"); // 0.1 token out
-  const minAmountOut = ethers.parseEther("0.05"); // 5% slippage
+  const deadline = Math.floor(Date.now() / 1000) + 1800; 
+  const amountIn = ethers.parseEther("1"); 
+  const amountOut = ethers.parseEther("0.1"); 
+  const minAmountOut = ethers.parseEther("0.05");
   const path = [await token.getAddress(), addresses.WETH];
   const reversePath = [addresses.WETH, await token.getAddress()];
   
@@ -212,11 +209,11 @@ async function main() {
       console.log("💹 Required input amount:", ethers.formatEther(requiredAmounts[0]), "TEST");
       
       const swapTx = await router.swapTokensForExactTokens(
-        amountOut,           // amountOut
-        requiredAmounts[0],  // amountInMax (from getAmountsIn)
-        path,                // path
-        signer.address,      // to
-        deadline            // deadline
+        amountOut,           
+        requiredAmounts[0],  
+        path,               
+        signer.address,     
+        deadline           
       );
       
       await swapTx.wait();
@@ -232,11 +229,11 @@ async function main() {
     
     try {
       const swapTx = await router.swapExactTokensForETHSupportingFeeOnTransferTokens(
-        amountIn,           // amountIn
-        minAmountOut,       // amountOutMin
-        path,               // path
-        signer.address,     // to
-        deadline           // deadline
+        amountIn,           
+        minAmountOut,       
+        path,               
+        signer.address,     
+        deadline           
       );
       
       await swapTx.wait();
@@ -251,15 +248,15 @@ async function main() {
     console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     
     try {
-      const ethAmountOut = ethers.parseEther("0.001"); // Want 0.001 ETH out
+      const ethAmountOut = ethers.parseEther("0.001"); 
       const requiredAmounts = await router.getAmountsIn(ethAmountOut, path);
       
       const swapTx = await router.swapTokensForExactETH(
-        ethAmountOut,       // amountOut (ETH)
-        requiredAmounts[0], // amountInMax (TEST tokens)
-        path,               // path
-        signer.address,     // to
-        deadline           // deadline
+        ethAmountOut,       
+        requiredAmounts[0], 
+        path,               
+        signer.address,   
+        deadline          
       );
       
       await swapTx.wait();
@@ -278,11 +275,11 @@ async function main() {
       const requiredAmounts = await router.getAmountsIn(tokenAmountOut, reversePath);
       
       const swapTx = await router.swapETHForExactTokens(
-        tokenAmountOut,     // amountOut (tokens)
-        reversePath,        // path
-        signer.address,     // to
-        deadline,          // deadline
-        { value: requiredAmounts[0] } // ETH to send
+        tokenAmountOut,    
+        reversePath,        
+        signer.address,    
+        deadline,          
+        { value: requiredAmounts[0] } 
       );
       
       await swapTx.wait();
@@ -300,11 +297,11 @@ async function main() {
       const circularPath = [await token.getAddress(), addresses.WETH, await token.getAddress()];
       
       const swapTx = await router.swapExactTokensForTokensSupportingFeeOnTransferTokens(
-        amountIn,           // amountIn
-        minAmountOut,       // amountOutMin
-        circularPath,       // path (TEST -> WETH -> TEST)
-        signer.address,     // to
-        deadline           // deadline
+        amountIn,          
+        minAmountOut,       
+        circularPath,     
+        signer.address,     
+        deadline          
       );
       
       await swapTx.wait();
@@ -343,10 +340,10 @@ async function main() {
     console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
     try {
-      const tokenAmount = ethers.parseEther("10"); // 10 TEST tokens
-      const ethAmount = ethers.parseEther("0.01"); // 0.01 ETH
-      const minTokenAmount = ethers.parseEther("9"); // 10% slippage
-      const minEthAmount = ethers.parseEther("0.009"); // 10% slippage
+      const tokenAmount = ethers.parseEther("10"); 
+      const ethAmount = ethers.parseEther("0.01"); 
+      const minTokenAmount = ethers.parseEther("9");
+      const minEthAmount = ethers.parseEther("0.009");
 
       console.log("📝 Approving router to spend TEST tokens for liquidity...");
       const approveTx = await token.approve(addresses.ROUTER, tokenAmount);
@@ -354,13 +351,13 @@ async function main() {
       console.log("✅ Approval TX:", approveTx.hash);
 
       const addLiquidityTx = await router.addLiquidityETH(
-        await token.getAddress(), // token
-        tokenAmount,              // amountTokenDesired
-        minTokenAmount,           // amountTokenMin
-        minEthAmount,             // amountETHMin
-        signer.address,           // to
-        deadline,                 // deadline
-        { value: ethAmount }      // ETH to send
+        await token.getAddress(), 
+        tokenAmount,             
+        minTokenAmount,         
+        minEthAmount,            
+        signer.address,          
+        deadline,                 
+        { value: ethAmount }      
       );
 
       await addLiquidityTx.wait();
@@ -390,7 +387,7 @@ async function main() {
     console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
     try {
-      const desiredOutput = ethers.parseEther("0.001"); // Want 0.001 WETH
+      const desiredOutput = ethers.parseEther("0.001");
       const amounts = await router.getAmountsIn(desiredOutput, path);
       console.log("💹 getAmountsIn result:");
       console.log("   - Required Input:", ethers.formatEther(amounts[0]), "TEST");
