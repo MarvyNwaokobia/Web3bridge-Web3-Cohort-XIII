@@ -1,0 +1,26 @@
+{
+  "name": "ludo-game-hardhat",
+  "version": "1.0.0",
+  "description": "A complete Ludo Game smart contract implementation with TypeScript and Hardhat",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:sepolia": "hardhat run scripts/deploy.ts --network sepolia",
+    "interact:sepolia": "hardhat run scripts/interact.ts --network sepolia",
+    "verify": "hardhat verify --network sepolia"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.1.0",
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.10.5",
+    "chai": "^4.3.10",
+    "hardhat": "^2.26.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.1",
+    "dotenv": "^17.2.1"
+  }
+}
